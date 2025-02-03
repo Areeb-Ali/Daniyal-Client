@@ -2,7 +2,7 @@
 // Update this data manually
 const data = {
     lastUpdated: new Date().toLocaleString(),
-    totalCapital: 30,
+    totalCapital: 0.0,
     dailyPnl: {
         value: "+00%",
         amount: "+$0"
