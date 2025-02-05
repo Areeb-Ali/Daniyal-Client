@@ -2,10 +2,10 @@
 // Update this data manually
 const data = {
     lastUpdated: new Date().toLocaleString(),
-    totalCapital: 0.0,
+    totalCapital: 29.6,
     dailyPnl: {
-        value: "+00%",
-        amount: "+$0"
+        value: "-03%",
+        amount: "-$0.002"
     },
     activeTrades: [
         // {
@@ -24,9 +24,10 @@ const data = {
         // }
     ],
     spotInvestments: [
-        // { asset: "BTC", quantity: 1.2, price: 43250 },
-        // { asset: "ETH", quantity: 10, price: 2455 },
-        // { asset: "USDT", quantity: 50000, price: 1 }
+        { asset: "ARB", quantity: 4.07, price: 0.4904 },
+        { asset: "TIA", quantity: 0.61, price: 3.23 },
+        { asset: "AVAX", quantity: 0.05, price: 26.977 },
+        { asset: "USDT", quantity: 24.1, price: 1 }
     ]
 };
 
