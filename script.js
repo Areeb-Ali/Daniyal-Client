@@ -1,71 +1,93 @@
-// <!-- Data Section - Update these values manually -->
-// Update this data manually
-const data = {
-    lastUpdated: new Date().toLocaleString(),
-    totalCapital: 29.6,
-    dailyPnl: {
-        value: "-03%",
-        amount: "-$0.002"
-    },
-    activeTrades: [
-        // {
-        //     pair: "BTC/USDT",
-        //     direction: "long",
-        //     entry: 42000,
-        //     current: 43250,
-        //     margin: 5000
-        // },
-        // {
-        //     pair: "ETH/USDT",
-        //     direction: "short",
-        //     entry: 2500,
-        //     current: 2455,
-        //     margin: 3000
-        // }
-    ],
-    spotInvestments: [
-        { asset: "ARB", quantity: 4.07, price: 0.4904 },
-        { asset: "TIA", quantity: 0.61, price: 3.23 },
-        { asset: "AVAX", quantity: 0.05, price: 26.977 },
-        { asset: "USDT", quantity: 24.1, price: 1 }
-    ]
-};
 
-// Display functions
-function formatMoney(amount) {
-    return amount.toLocaleString('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        maximumFractionDigits: 0
-    });
-}
+        // ========== DATA INPUT - EDIT THESE VALUES ========== //
+        const data = {
+            lastUpdated: new Date().toLocaleString(),
+            activeTrades: [
+                // {
+                //     pair: "BTC/USDT",
+                //     direction: "long",
+                //     entryPrice: 42000,   // Your entry price
+                //     quantity: 1.2,      // Quantity of coins
+                //     currentPrice: 43250 // Current market price
+                // },
+                // {
+                //     pair: "ETH/USDT",
+                //     direction: "short",
+                //     entryPrice: 2500,
+                //     quantity: 10,
+                //     currentPrice: 2455
+                // }
+            ],
+            spotInvestments: [
+                { asset: "ARB", quantity: 4.07, entryPrice: 0.488, currentPrice: 0.4697 },
+                { asset: "TIA", quantity: 0.61, entryPrice: 3.2, currentPrice: 2.984 },
+                { asset: "AVAX", quantity: 0.05, entryPrice: 26.977, currentPrice: 26.238 },
+                { asset: "BKN", quantity: 5.4, entryPrice: 0.27643, currentPrice: 0.270181 },
+                { asset: "USDT", quantity: 22.6, entryPrice: 1, currentPrice: 1 }
+            ]
+        };
+        // ========== END OF DATA INPUT ========== //
 
-function calculatePnl(entry, current, margin) {
-    const pnl = ((current - entry) / entry) * 100;
-    return {
-        percentage: pnl.toFixed(2) + "%",
-        amount: (margin * (pnl / 100)).toLocaleString('en-US', {
-            style: 'currency',
-            currency: 'USD',
-            maximumFractionDigits: 0
-        })
-    };
-}
+        // Utility functions
+        const formatMoney = (amount) => {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                maximumFractionDigits: 4
+            }).format(amount);
+        };
 
-function render() {
-    // Update metadata
-    document.getElementById('updateTime').textContent = data.lastUpdated;
-    document.getElementById('totalCapital').textContent =
-        data.totalCapital.toLocaleString();
+        const calculatePnl = (entry, current, quantity, isShort = false) => {
+            const priceDiff = isShort ? entry - current : current - entry;
+            const pnlAmount = priceDiff * quantity;
+            const pnlPercent = ((priceDiff / entry) * 100).toFixed(2);
+            
+            return {
+                amount: pnlAmount,
+                percent: Math.abs(pnlPercent),
+                isProfit: pnlAmount >= 0
+            };
+        };
 
-    // Daily P&L
-    const dailyPnlElement = document.getElementById('dailyPnl');
-    dailyPnlElement.textContent = `${data.dailyPnl.value} (${data.dailyPnl.amount})`;
+        const calculateTotalValue = () => {
+            // Calculate total spot value
+            const totalSpot = data.spotInvestments.reduce((acc, item) => 
+                acc + (item.quantity * item.currentPrice), 0);
+            
+            // Calculate total trade value (including P&L)
+            const totalTrades = data.activeTrades.reduce((acc, trade) => {
+                const pnl = calculatePnl(trade.entryPrice, trade.currentPrice, 
+                                       trade.quantity, trade.direction === 'short');
+                return acc + (trade.quantity * trade.currentPrice);
+            }, 0);
 
-    // Active trades
-    const tradesHtml = data.activeTrades.map(trade => {
-        const pnl = calculatePnl(trade.entry, trade.current, trade.margin);
-        return `
+            return totalSpot + totalTrades;
+        };
+
+        const updateTotals = () => {
+            const totalValue = calculateTotalValue();
+            document.getElementById('totalValue').textContent = formatMoney(totalValue);
+
+            // Calculate 24h P&L
+            const totalPnl = data.activeTrades.reduce((acc, trade) => {
+                const pnl = calculatePnl(trade.entryPrice, trade.currentPrice, 
+                                       trade.quantity, trade.direction === 'short');
+                return acc + pnl.amount;
+            }, 0);
+
+            document.getElementById('dailyPnl').textContent = 
+                `${totalPnl >= 0 ? '+' : ''}${formatMoney(totalPnl)}`;
+            document.getElementById('dailyPnl').className = 
+                totalPnl >= 0 ? 'positive' : 'negative';
+        };
+
+        const renderTrades = () => {
+            const tradesHTML = data.activeTrades.map(trade => {
+                const pnl = calculatePnl(trade.entryPrice, trade.currentPrice, 
+                                       trade.quantity, trade.direction === 'short');
+                const currentValue = trade.quantity * trade.currentPrice;
+
+                return `
                     <div class="trade-item">
                         <div>
                             <span class="trade-direction ${trade.direction}">
@@ -74,31 +96,40 @@ function render() {
                             ${trade.pair}
                         </div>
                         <div>
-                            <div>${formatMoney(trade.current)}</div>
-                            <div class="${pnl.percentage.startsWith('-') ? 'negative' : 'positive'}">
-                                ${pnl.percentage} (${pnl.amount})
+                            <div>${formatMoney(currentValue)}</div>
+                            <div class="${pnl.isProfit ? 'positive' : 'negative'}">
+                                ${pnl.isProfit ? '+' : '-'}${formatMoney(Math.abs(pnl.amount))} (${pnl.percent}%)
                             </div>
                         </div>
                     </div>
                 `;
-    }).join('');
-    document.getElementById('activeTrades').innerHTML = tradesHtml;
+            }).join('');
+            document.getElementById('activeTrades').innerHTML = tradesHTML;
+        };
 
-    // Spot investments
-    const spotHtml = data.spotInvestments.map(asset => {
-        const value = asset.quantity * asset.price;
-        return `
+        const renderSpotInvestments = () => {
+            const spotHTML = data.spotInvestments.map(asset => {
+                const pnl = calculatePnl(asset.entryPrice, asset.currentPrice, asset.quantity);
+                const currentValue = asset.quantity * asset.currentPrice;
+
+                return `
                     <div class="trade-item">
                         <div>${asset.asset}</div>
                         <div>
-                            <div>${asset.quantity} @ ${formatMoney(asset.price)}</div>
-                            <div class="positive">${formatMoney(value)}</div>
+                            <div>${asset.quantity} @ ${formatMoney(asset.currentPrice)}</div>
+                            <div class="${pnl.isProfit ? 'positive' : 'negative'}">
+                                ${formatMoney(currentValue)} (${pnl.isProfit ? '+' : '-'}${pnl.percent}%)
+                            </div>
                         </div>
                     </div>
                 `;
-    }).join('');
-    document.getElementById('spotInvestments').innerHTML = spotHtml;
-}
+            }).join('');
+            document.getElementById('spotInvestments').innerHTML = spotHTML;
+        };
 
-// Initial render
-render();
+        // Initial render
+        document.getElementById('updateTime').textContent = data.lastUpdated;
+        updateTotals();
+        renderTrades();
+        renderSpotInvestments();
+    
