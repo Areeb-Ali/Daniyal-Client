@@ -19,10 +19,10 @@
                 // }
             ],
             spotInvestments: [
-                { asset: "ARB", quantity: 4.07, entryPrice: 0.488, currentPrice: 0.4697 },
-                { asset: "TIA", quantity: 0.61, entryPrice: 3.2, currentPrice: 2.984 },
-                { asset: "AVAX", quantity: 0.05, entryPrice: 26.977, currentPrice: 26.238 },
-                { asset: "BKN", quantity: 5.4, entryPrice: 0.27643, currentPrice: 0.270181 },
+                { asset: "ARB", quantity: 4.07, entryPrice: 0.488, currentPrice: 0.4471 },
+                { asset: "TIA", quantity: 0.61, entryPrice: 3.2, currentPrice: 2.939 },
+                { asset: "AVAX", quantity: 0.05, entryPrice: 26.977, currentPrice: 24.665 },
+                { asset: "BKN", quantity: 5.4, entryPrice: 0.27643, currentPrice: 0.253 },
                 { asset: "USDT", quantity: 22.6, entryPrice: 1, currentPrice: 1 }
             ]
         };
