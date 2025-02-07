@@ -41,6 +41,7 @@ body {
     padding: 1.5rem;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
 }
 
 .metric-value {
@@ -83,6 +84,11 @@ body {
 .short {
     background: var(--loss);
     color: white;
+}
+
+.chart-container {
+    height: 400px;
+    margin-top: 20px;
 }
 
 @media (max-width: 768px) {
