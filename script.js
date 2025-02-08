@@ -19,10 +19,10 @@ const data = {
         // }
     ],
     spotInvestments: [
-        { asset: "ARB", quantity: 4.07, entryPrice: 0.488, currentPrice: 0.4643 },
-        { asset: "TIA", quantity: 0.61, entryPrice: 3.2, currentPrice: 3.085 },
-        { asset: "AVAX", quantity: 0.05, entryPrice: 26.977, currentPrice: 25.917 },
-        { asset: "BKN", quantity: 5.4, entryPrice: 0.27643, currentPrice: 0.24362 },
+        { asset: "ARB", quantity: 4.07, entryPrice: 0.488, currentPrice: 0.4476 },
+        { asset: "TIA", quantity: 0.61, entryPrice: 3.2, currentPrice: 2.996 },
+        { asset: "AVAX", quantity: 0.05, entryPrice: 26.977, currentPrice: 24.5389},
+        { asset: "BKN", quantity: 5.4, entryPrice: 0.27643, currentPrice: 0.24459 },
         { asset: "USDT", quantity: 22.6, entryPrice: 1, currentPrice: 1 }
     ]
 };
@@ -138,7 +138,7 @@ const capitalData = [
     { date: "2025-02-05", capital: 29.3 },
     { date: "2025-02-06", capital: 28.8 },
     { date: "2025-02-07", capital: 28.9 },
-    // { date: "2023-10-04", capital: 153000 },
+    { date: "2025-02-08", capital: 28.7 },
     // { date: "2023-10-05", capital: 155000 },
     // { date: "2023-10-06", capital: 154500 },
     // { date: "2023-10-07", capital: 156000 },
