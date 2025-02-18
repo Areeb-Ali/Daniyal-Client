@@ -2,6 +2,7 @@
 // ========== DATA INPUT - EDIT THESE VALUES ========== //
 const data = {
     lastUpdated: new Date().toLocaleString(),
+    startingCapital: 29.3,
     activeTrades: [
         // {
         //     pair: "BTC/USDT",
@@ -69,17 +70,12 @@ const updateTotals = () => {
     const totalValue = calculateTotalValue();
     document.getElementById('totalValue').textContent = formatMoney(totalValue);
 
-    // Calculate 24h P&L
-    const totalPnl = data.activeTrades.reduce((acc, trade) => {
-        const pnl = calculatePnl(trade.entryPrice, trade.currentPrice,
-            trade.quantity, trade.direction === 'short');
-        return acc + pnl.amount;
-    }, 0);
+    // Calculate 24h P&L (using startingCapital)
+    const dailyPnlAmount = totalValue - data.startingCapital;
+    const dailyPnlPercent = (dailyPnlAmount / data.startingCapital) * 100;
 
-    document.getElementById('dailyPnl').textContent =
-        `${totalPnl >= 0 ? '+' : ''}${formatMoney(totalPnl)}`;
-    document.getElementById('dailyPnl').className =
-        totalPnl >= 0 ? 'positive' : 'negative';
+    document.getElementById('dailyPnl').textContent = `${dailyPnlAmount >= 0 ? '+' : ''}${formatMoney(dailyPnlAmount)} (${dailyPnlPercent.toFixed(2)}%)`;
+    document.getElementById('dailyPnl').className = dailyPnlAmount >= 0 ? 'positive' : 'negative';
 };
 
 const renderTrades = () => {
@@ -130,6 +126,7 @@ const renderSpotInvestments = () => {
 
 // Initial render
 document.getElementById('updateTime').textContent = data.lastUpdated;
+document.getElementById('startingCapitalDisplay').textContent = formatMoney(data.startingCapital); // Display starting capital
 updateTotals();
 renderTrades();
 renderSpotInvestments();
