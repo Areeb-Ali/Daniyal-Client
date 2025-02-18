@@ -147,7 +147,7 @@ const capitalData = [
     { date: "2025-02-16", capital: 28.7  },
     { date: "2025-02-17", capital: 29.1  },
     { date: "2025-02-18", capital: 28.7  },
-    { date: "2025-02-19", capital: 23.7  },
+    { date: "2025-02-19", capital: 23  },
 
 
 ];
