@@ -20,11 +20,11 @@ const data = {
         // }
     ],
     spotInvestments: [
-        { asset: "ARB", quantity: 4.07, entryPrice: 0.488, currentPrice: 0.4543 },
-        { asset: "TIA", quantity: 0.61, entryPrice: 3.2, currentPrice: 3.033 },
-        { asset: "AVAX", quantity: 0.05, entryPrice: 26.977, currentPrice: 23.344},
-        { asset: "BKN", quantity: 11.66, entryPrice: 0.25707, currentPrice: 0.19403 },
-        { asset: "FET", quantity: 1.82, entryPrice: 0.8193, currentPrice: 0.7261 },
+        { asset: "ARB", quantity: 4.07, entryPrice: 0.488, currentPrice: 0.4831 },
+        { asset: "TIA", quantity: 0.61, entryPrice: 3.2, currentPrice: 3.595 },
+        { asset: "AVAX", quantity: 0.05, entryPrice: 26.977, currentPrice: 25.344},
+        { asset: "BKN", quantity: 11.66, entryPrice: 0.25707, currentPrice: 0.23342 },
+        { asset: "FET", quantity: 1.82, entryPrice: 0.8193, currentPrice: 0.7874 },
         { asset: "USDT", quantity: 14.6, entryPrice: 1, currentPrice: 1 }
     ]
 };
@@ -148,7 +148,8 @@ const capitalData = [
     { date: "2025-02-17", capital: 29.1  },
     { date: "2025-02-18", capital: 28.7  },
     { date: "2025-02-19", capital: 23  },
-
+    { date: "2025-02-20", capital: 23.4  },
+    { date: "2025-02-21", capital: 24.1  },
 
 ];
 // ========== END OF DATA INPUT ========== //
